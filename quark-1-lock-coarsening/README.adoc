@@ -1,0 +1,16 @@
+= Shipilev Loack Coarsening Quark #1 testing
+
+== Prerequisites
+
+Check if you have installed the profiler `perf`.
+E.g. `which perf` needs to show something.
+
+Otherwise first `dnf install perf`.
+
+== Run
+
+[source,bash]
+----
+mvn clean package
+mvn exec:exec
+----
