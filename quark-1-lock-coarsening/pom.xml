@@ -93,14 +93,13 @@
         <configuration>
           <executable>java</executable>
           <arguments>
-            <!-- <argument>-XX:LoopUnrollLimit=1</argument> --> <!-- limit loop unrolling to decrease the performance benefit of coarsening the lock of the unrolled loop -->
             <argument>-classpath</argument>
             <classpath />
             <argument>cz.chalda.shipilev.BenchmarkRunner</argument>
             <!--
               <argument>-prof</argument>
               <argument>perfasm:mergeMargin=1000</argument>
-            -->
+               -->
           </arguments>
         </configuration>
       </plugin>

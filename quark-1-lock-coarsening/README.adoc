@@ -2,15 +2,67 @@
 
 == Prerequisites
 
+=== Install `perf` linux tool
+
 Check if you have installed the profiler `perf`.
 E.g. `which perf` needs to show something.
 
 Otherwise first `dnf install perf`.
 
-== Run
+=== Verify `PrintAssembly` works
+
+Try to run `PrintAssembly` option which may either fail or
+not print any assembler code. Then changes are needed.
+
+[source,bash]
+----
+java -XX:+UnlockDiagnosticVMOptions -XX:+PrintAssembly -version
+----
+
+See https://wiki.openjdk.java.net/display/HotSpot/PrintAssembly
+There could be needed for OpenJDK to install `hsdis` manually.
+See https://github.com/vjuranek/code-snippets/tree/master/java/jhm
+
+As well the error from JHM could be like
+
+[quote]
+====
+ERROR: No address lines detected in assembly capture. Make sure your JDK is properly configured to
+print generated assembly. The most probable cause for this failure is that hsdis is not available,
+or resides at the wrong path within the JDK. Try to run the same JDK with -XX:+PrintAssembly with
+a simple non-JMH program and look for warning messages. For details, see the link below:
+https://wiki.openjdk.java.net/display/HotSpot/PrintAssembly
+====
+
+[source,shell script]
+----
+# stolen from vjuranek 'code-snippets'
+# download hsdis from http://hg.openjdk.java.net/jdk/jdk/file/tip/src/utils/hsdis/
+
+wget -O hsdis.tar.gz http://hg.openjdk.java.net/jdk/jdk/archive/bdc20ee1a68d.tar.gz/src/utils/hsdis/
+tar -zvxf hsdis.tar.gz
+cd jdk-bdc20ee1a68d/src/utils/hsdis/
+
+wget https://ftp.gnu.org/gnu/binutils/binutils-2.35.tar.xz
+tar -Jvxf binutils-2.35.tar.xz
+export BINUTILS=binutils-2.35
+make all64
+# sudo cp build/linux-amd64/hsdis-amd64.so /usr/java/latest/jre/lib/amd64/
+cp build/linux-amd64/hsdis-amd64.so /etc/alternatives/java_sdk_openjdk/jre/lib/amd64
+java -XX:+UnlockDiagnosticVMOptions -XX:+PrintAssembly -version
+----
+
+== Run the JMH testing
 
 [source,bash]
 ----
 mvn clean package
 mvn exec:exec
 ----
+
+[NOTE]
+====
+The JVM `-XX` options are defined in the source code at the JMH annotation `@Fork`.
+The `-prof` argument which prints only the hottest sections of the dissasembled code
+is defined in maven `pom.xml`.
+====

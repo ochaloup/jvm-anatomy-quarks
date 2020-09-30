@@ -20,8 +20,10 @@ import java.util.concurrent.TimeUnit;
 @Warmup(iterations = 10, time = 1, timeUnit = TimeUnit.SECONDS)
 @Measurement(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
 // -XX:LoopUnrollLimit=1 ; limit loop unrolling to decrease the performance benefit of coarsening the lock of the unrolled loop
-// "-XX:+UnlockDiagnosticVMOptions", "-XX:+PrintAssembly"; for getting more info but I can't see any more data with it
-@Fork(value = 1, jvmArgsPrepend = {"-XX:-UseBiasedLocking", "-XX:+UnlockDiagnosticVMOptions", "-XX:+PrintAssembly"})
+// -XX:-UseBiasedLocking ; switching off the optimization to not adjust the behaviour of testing
+// "-XX:+UnlockDiagnosticVMOptions", "-XX:+PrintAssembly"; for getting assembly code, otherwise the -prof only shows more details on average times
+// -XX:PrintAssemblyOptions=intel ; ' It annoys me every time I use -XX:+PrintAssembly with Hotspot and have to read the horrible AT&T syntax' -> https://stackoverflow.com/questions/9337670/hotspot7-hsdis-printassembly-intel-syntax
+@Fork(value = 1, jvmArgsPrepend = {"-XX:-UseBiasedLocking", "-XX:+UnlockDiagnosticVMOptions", "-XX:+PrintAssembly", "-XX:PrintAssemblyOptions=intel"})
 @State(Scope.Benchmark)
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.NANOSECONDS)
