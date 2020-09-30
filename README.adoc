@@ -1,0 +1,5 @@
+Testing repository when playing with JVM Anatomy Quarks by Aleksey Shipilёv
+
+All at
+
+https://shipilev.net/jvm/anatomy-quarks/
