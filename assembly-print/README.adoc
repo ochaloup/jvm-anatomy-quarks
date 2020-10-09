@@ -1,0 +1,2 @@
+* `mvn clean install`
+* `java -XX:+UnlockDiagnosticVMOptions -XX:+PrintAssembly -XX:PrintAssemblyOptions=intel -cp target/assembly-print-1.0-SNAPSHOT.jar cz.chalda.App`
