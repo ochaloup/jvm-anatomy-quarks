@@ -1,0 +1,23 @@
+= JVM Anatomy Quark #3: GC Design and Pauses : example
+
+https://shipilev.net/jvm/anatomy-quarks/3-gc-design-and-pauses/
+
+* `mvn clean install`
+* `java -cp target/quark-3-gc-pauses-1.0-SNAPSHOT.jar cz.chalda.shipilev.App`
+
+To get GC being printed
+
+[source,sh]
+----
+java -version
+openjdk version "11.0.8" 2020-07-14
+# -XX:+UseParallelOldGC for JDK8
+time java -Xms4G -Xmx4G -Xlog:gc -XX:+UseParallelOldGC -cp target/quark-3-gc-pauses-1.0-SNAPSHOT.jar cz.chalda.shipilev.App
+time java -Xms4G -Xmx4G -Xlog:gc -XX:+UseG1GC -cp target/quark-3-gc-pauses-1.0-SNAPSHOT.jar cz.chalda.shipilev.App
+#  for older OpenJDK JVM versions the -XX:+UnlockExperimentalVMOptions switch could be needed for Shenandoah too
+time java -Xms4G -Xmx4G -Xlog:gc -XX:+UseShenandoahGC -cp target/quark-3-gc-pauses-1.0-SNAPSHOT.jar cz.chalda.shipilev.App
+time java -Xms4G -Xmx4G -Xlog:gc -XX:+UnlockExperimentalVMOptions -XX:+UseEpsilonGC -cp target/quark-3-gc-pauses-1.0-SNAPSHOT.jar cz.chalda.shipilev.App
+time java -Xms4G -Xmx4G -Xlog:gc -XX:+UnlockExperimentalVMOptions -XX:+UseZGC -cp target/quark-3-gc-pauses-1.0-SNAPSHOT.jar cz.chalda.shipilev.App
+
+----
+
