@@ -12,6 +12,13 @@
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
+  <scm>
+    <connection>scm:git:git@github.com:ochaloup/jvm-anatomy-quarks.git</connection>
+    <developerConnection>scm:git:git@github.com:ochaloup/jvm-anatomy-quarks.git</developerConnection>
+    <url>https://github.com/ochaloup/jvm-anatomy-quarks</url>
+  </scm>
+
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
