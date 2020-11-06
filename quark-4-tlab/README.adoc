@@ -2,6 +2,7 @@
 
 https://shipilev.net/jvm/anatomy-quarks/4-tlab-allocation/
 
+== To run
 
 [source,java]
 ----
@@ -9,8 +10,32 @@ mvn clean package
 mvn exec:exec
 ----
 
-This will run the benchmark which allocates 50 millions of objects in a single thread.
+== Short recap
 
-For disabling the use of `TLAB` which makes the allocation slower as every request
+This will run the benchmark which allocates 50 million objects in a single thread.
+
+It just allocates and uses the no-op GC. Then the JHM is used to compare
+the performance with TLAB and without TLAB.
+
+== On program arguments
+
+For disabling the use of `-XX:-UseTLAB` which makes the allocation slower as every request
 goes through the JVM synchronization machinery (into the native method).
-Even there is single thread, and no thread contention happens, this slows down allocation.
+There is a single thread, and even that no thread contention happens, this slows down allocation.
+
+There is used the Epsilon GC which does not run the GC processing at all
+`-XX:+UnlockExperimentalVMOptions -XX:+UseEpsilonGC`.
+
+NOTE: Use JDK11 or later.
+
+The article talks about `-XX:EpsilonTLABSize` but it's not available - removed in JDK10 probably.
+Listing the `-XX` JVM options with
+
+[source,shell script]
+----
+java -XX:+UnlockDiagnosticVMOptions -XX:+UnlockExperimentalVMOptions -XX:+PrintFlagsFinal -version
+# | grep Epsilon
+----
+
+and we can see it was probably http://hg.openjdk.java.net/jdk10/sandbox/hotspot/rev/b9ec6cb04a42[replaced] by `EpsilonMaxTLABSize`.
+
