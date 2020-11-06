@@ -21,7 +21,11 @@ gives us the heap dump that we can https://www.eclipse.org/mat/[analyze].
 
 [source,shell script]
 ----
-./mat/MemoryAnalyzer java_pid50981.hprof
+# to get the dump being parsed
+./mat/ParseHeapDump.sh java_pid50981.hprof
+# to open memory analyzer and see the view
+./mat/MemoryAnalyzer
+# 'Open a Heap Dump' java_pid50981.hprof
 ----
 
 [NOTE]
@@ -31,7 +35,8 @@ An internal error occurred during: "Parsing heap dump from 'java_pid50981.hprof'
 Java heap space
 ----
 
-change the `./mat/MemoryAnalyzer.ini` to use more memory with e.g. `-Xmx4g`
+* Change the `./mat/MemoryAnalyzer.ini` to use more memory with e.g. `-Xmx4g`
+* Add vm args at command line `-vmargs -Xmx4g -XX:-UseGCOverheadLimit`
 ====
 
 == On program arguments
@@ -44,3 +49,16 @@ There is used the Epsilon GC to be predictable and 1GB heap to fail with OOM soo
 ----
 
 NOTE: Use JDK11 or later.
+
+To have the fixed TLAB don't permit resize TLAB and set the size
+`-XX:TLABSize=1000000 -XX:-ResizeTLAB`.
+
+== Observation
+
+I cannot see the `int[]` in the used MAT (v. 1.10.0). It could be that it hides it as it knows
+they're only filler data and it may be discarded from the user view.
+
+Second thing is that I'm not able to find how to make EclipseGC to use fixed TLAB sizes.
+The option `-XX:EpsilonTLABSize` seems not being available.
+
+NOTE: heap Object allocation in JDK8, sources https://github.com/openjdk/jdk/blob/jdk8-b119/hotspot/src/share/vm/gc_interface/collectedHeap.cpp#L425

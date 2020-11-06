@@ -31,6 +31,8 @@
           <arguments>
             <argument>-Xmx1G</argument>
             <argument>-Xms1G</argument>
+            <argument>-XX:TLABSize=4194304</argument>
+            <argument>-XX:-ResizeTLAB</argument>
             <argument>-XX:+UnlockExperimentalVMOptions</argument>
             <argument>-XX:+UseEpsilonGC</argument>
             <argument>-XX:+HeapDumpOnOutOfMemoryError</argument>
