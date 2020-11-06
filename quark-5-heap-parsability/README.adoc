@@ -1,0 +1,46 @@
+= Shipilev's Quark #5: Heap Parsability
+
+https://shipilev.net/jvm/anatomy-quarks/5-tlabs-and-heap-parsability/
+
+== To run
+
+[source,shell script]
+----
+mvn clean package
+mvn exec:exec
+----
+
+== Short recap
+
+There are run 300 threads which each of them allocates one object.
+This allocation means to get a TLAB space and for heap to be parsable
+the rest of the TLAB is filled with an `int[]`.
+
+The other thread just makes the OOM to happen which in combination with `-XX:+HeapDumpOnOutOfMemoryError`
+gives us the heap dump that we can https://www.eclipse.org/mat/[analyze].
+
+[source,shell script]
+----
+./mat/MemoryAnalyzer java_pid50981.hprof
+----
+
+[NOTE]
+====
+----
+An internal error occurred during: "Parsing heap dump from 'java_pid50981.hprof'".
+Java heap space
+----
+
+change the `./mat/MemoryAnalyzer.ini` to use more memory with e.g. `-Xmx4g`
+====
+
+== On program arguments
+
+There is used the Epsilon GC to be predictable and 1GB heap to fail with OOM soon.
+
+[source,shell script]
+----
+-Xmx1G -Xms1G -XX:+UnlockExperimentalVMOptions -XX:+UseEpsilonGC -XX:+HeapDumpOnOutOfMemoryError
+----
+
+NOTE: Use JDK11 or later.

@@ -15,10 +15,6 @@
   <name>quark-1-lock-coarsening</name>
   <url>https://shipilev.net/jvm/anatomy-quarks/1-lock-coarsening-for-loops</url>
 
-  <properties>
-    <version.jmh>1.23</version.jmh>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.openjdk.jmh</groupId>

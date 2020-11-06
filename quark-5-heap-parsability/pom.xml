@@ -11,30 +11,15 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <name>quark-4-tlab</name>
-  <artifactId>quark-4-tlab</artifactId>
-  <url>https://shipilev.net/jvm/anatomy-quarks/4-tlab-allocation</url>
+  <name>quark-5-heap-parsability</name>
+  <artifactId>quark-5-heap-parsability</artifactId>
+  <url>https://shipilev.net/jvm/anatomy-quarks/5-tlabs-and-heap-parsability/</url>
 
   <properties>
     <!--- need to go with JDK having the EpsilonGC available, e.g. JDK11 -->
     <maven.compiler.target>11</maven.compiler.target>
     <maven.compiler.source>11</maven.compiler.source>
   </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>org.openjdk.jmh</groupId>
-      <artifactId>jmh-core</artifactId>
-      <version>${version.jmh}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.openjdk.jmh</groupId>
-      <artifactId>jmh-generator-annprocess</artifactId>
-      <version>${version.jmh}</version>
-      <scope>compile</scope>
-    </dependency>
-  </dependencies>
 
   <build>
     <plugins>
@@ -44,13 +29,15 @@
         <configuration>
           <executable>java</executable>
           <arguments>
+            <argument>-Xmx1G</argument>
+            <argument>-Xms1G</argument>
             <argument>-XX:+UnlockExperimentalVMOptions</argument>
             <argument>-XX:+UseEpsilonGC</argument>
-            <!-- <argument>-XX:-UseTLAB</argument> -->
+            <argument>-XX:+HeapDumpOnOutOfMemoryError</argument>
             <argument>-Djava.library.path=${project.build.directory}/lib</argument>
             <argument>-classpath</argument>
             <classpath />
-            <argument>cz.chalda.shipilev.BenchmarkRunner</argument>
+            <argument>cz.chalda.shipilev.Fillers</argument>
           </arguments>
         </configuration>
       </plugin>

@@ -15,13 +15,4 @@
   <artifactId>quark-3-gc-pauses</artifactId>
   <url>https://shipilev.net/jvm/anatomy-quarks/3-gc-design-and-pauses</url>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-
 </project>

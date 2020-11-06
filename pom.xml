@@ -16,6 +16,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+
+    <version.jmh>1.23</version.jmh>
   </properties>
 
 
@@ -75,5 +77,6 @@
     <module>quark-1-lock-coarsening</module>
     <module>quark-3-gc-pauses</module>
     <module>quark-4-tlab</module>
+    <module>quark-5-heap-parsability</module>
   </modules>
 </project>

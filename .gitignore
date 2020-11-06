@@ -1,2 +1,5 @@
 target/
 release.properties
+*.hprof
+java_pid*
+workspace/

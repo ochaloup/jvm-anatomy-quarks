@@ -4,7 +4,7 @@ https://shipilev.net/jvm/anatomy-quarks/4-tlab-allocation/
 
 == To run
 
-[source,java]
+[source,shell script]
 ----
 mvn clean package
 mvn exec:exec

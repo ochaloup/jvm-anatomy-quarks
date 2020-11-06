@@ -7,7 +7,7 @@ https://shipilev.net/jvm/anatomy-quarks/3-gc-design-and-pauses/
 
 To get GC being printed
 
-[source,sh]
+[source,shell script]
 ----
 java -version
 openjdk version "11.0.8" 2020-07-14
