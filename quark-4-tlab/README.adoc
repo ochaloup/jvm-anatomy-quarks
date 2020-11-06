@@ -1,3 +1,16 @@
 = Shipilev's Quark #4: TLAB
 
 https://shipilev.net/jvm/anatomy-quarks/4-tlab-allocation/
+
+
+[source,java]
+----
+mvn clean package
+mvn exec:exec
+----
+
+This will run the benchmark which allocates 50 millions of objects in a single thread.
+
+For disabling the use of `TLAB` which makes the allocation slower as every request
+goes through the JVM synchronization machinery (into the native method).
+Even there is single thread, and no thread contention happens, this slows down allocation.
