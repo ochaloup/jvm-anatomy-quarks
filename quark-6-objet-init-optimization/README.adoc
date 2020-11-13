@@ -1,0 +1,5 @@
+= Shipilev Loack Coarsening Quark #6 testing
+
+About showing the print assembly code
+see notes at Quark #1 : link:../quark-1-lock-coarsening/README.adoc[quark-1-lock-coarsening README].
+
