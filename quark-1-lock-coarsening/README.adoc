@@ -48,7 +48,7 @@ tar -Jvxf binutils-2.35.tar.xz
 export BINUTILS=binutils-2.35
 make all64
 # sudo cp build/linux-amd64/hsdis-amd64.so /usr/java/latest/jre/lib/amd64/
-cp build/linux-amd64/hsdis-amd64.so /etc/alternatives/java_sdk_openjdk/jre/lib/amd64
+cp build/linux-amd64/hsdis-amd64.so $JAVA_HOME/jre/lib/amd64
 java -XX:+UnlockDiagnosticVMOptions -XX:+PrintAssembly -version
 ----
 
@@ -66,3 +66,23 @@ The JVM `-XX` options are defined in the source code at the JMH annotation `@For
 The `-prof` argument which prints only the hottest sections of the dissasembled code
 is defined in maven `pom.xml`.
 ====
+
+=== Using hprof
+
+If you provide the parameter `-prof perfasm` you need to have installed the linux support for it.
+By using JMH argument `-lprof` (as root) you will get listed  the installed profilers at your system.
+
+If you experience the error then you need to install the profiler on your OS first
+like `dnf install perf`.
+
+--
+[Cannot run program "perf": error=2, No such file or directory]
+Profilers failed to initialize, exiting.
+[ERROR] Command execution failed.
+org.apache.commons.exec.ExecuteException: Process exited with an error: 1 (Exit value: 1)
+at org.apache.commons.exec.DefaultExecutor.executeInternal (DefaultExecutor.java:404)
+at org.apache.commons.exec.DefaultExecutor.execute (DefaultExecutor.java:166)
+at org.codehaus.mojo.exec.ExecMojo.executeCommandLine (ExecMojo.java:982)
+at org.codehaus.mojo.exec.ExecMojo.executeCommandLine (ExecMojo.java:929)
+at org.codehaus.mojo.exec.ExecMojo.execute (ExecMojo.java:457)
+---

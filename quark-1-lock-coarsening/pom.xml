@@ -52,7 +52,10 @@
             <!--
               <argument>-prof</argument>
               <argument>perfasm:mergeMargin=1000</argument>
-               -->
+            -->
+            <!--
+              <argument>-lprof</argument>
+            -->
           </arguments>
         </configuration>
       </plugin>

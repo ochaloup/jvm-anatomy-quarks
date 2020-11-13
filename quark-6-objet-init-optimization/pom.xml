@@ -49,10 +49,8 @@
             <argument>-classpath</argument>
             <classpath />
             <argument>cz.chalda.shipilev.BenchmarkRunner</argument>
-            <!--
-              <argument>-prof</argument>
-              <argument>perfasm</argument>
-               -->
+            <argument>-prof</argument>
+            <argument>perfasm</argument>
           </arguments>
         </configuration>
       </plugin>

@@ -3,3 +3,10 @@
 About showing the print assembly code
 see notes at Quark #1 : link:../quark-1-lock-coarsening/README.adoc[quark-1-lock-coarsening README].
 
+== Run the JMH testing
+
+[source,bash]
+----
+mvn clean package
+mvn exec:exec
+----
