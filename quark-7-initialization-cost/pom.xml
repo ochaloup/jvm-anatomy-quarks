@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>cz.chalda.shipilev</groupId>
+    <artifactId>quarks-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>quark-6-initialization-cost</artifactId>
+  <name>quark-6-initialization-cost</name>
+  <url>https://shipilev.net/jvm/anatomy-quarks/7-initialization-costs/</url>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.openjdk.jmh</groupId>
+      <artifactId>jmh-core</artifactId>
+      <version>${version.jmh}</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.openjdk.jmh</groupId>
+      <artifactId>jmh-generator-annprocess</artifactId>
+      <version>${version.jmh}</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+  <build>
+
+    <plugins>
+      <!-- mvn exec:exec -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <executable>java</executable>
+          <arguments>
+            <argument>-classpath</argument>
+            <classpath />
+            <argument>cz.chalda.shipilev.BenchmarkRunner</argument>
+            <!-- to print gc.alloc.rate -->
+            <!--
+            <argument>-prof</argument>
+            <argument>gc</argument>
+            -->
+            <!-- to see where the code spend the most of the time -->
+            <argument>-prof</argument>
+            <argument>perfasm</argument>
+            <argument>-p</argument>
+            <argument>size=100000</argument>
+          </arguments>
+        </configuration>
+      </plugin>
+    </plugins>
+
+  </build>
+
+</project>
+

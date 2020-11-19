@@ -79,5 +79,6 @@
     <module>quark-4-tlab</module>
     <module>quark-5-heap-parsability</module>
     <module>quark-6-objet-init-optimization</module>
+    <module>quark-7-initialization-cost</module>
   </modules>
 </project>
