@@ -1,0 +1,41 @@
+= Shipilev's Quark #8: Local Variable Reachability
+
+https://shipilev.net/jvm/anatomy-quarks/8-local-var-reachability/
+
+== To run
+
+[source,shell script]
+----
+mvn clean package
+java -cp target/classes/ cz.chalda.shipilev.LocalFinalizer
+----
+
+=== Expected output
+
+....
+Pass 1
+Created LocalFinalize$MyHook@816f27d     # h1 created
+Created LocalFinalize$MyHook@87aac27     # h2 created
+Alive LocalFinalize$MyHook@816f27d       # h1.log called
+
+Wait for pass 1 finalization
+Finalized LocalFinalize$MyHook@87aac27   # h1 finalized
+Finalized LocalFinalize$MyHook@816f27d   # h2 finalized
+
+Pass 2
+Created LocalFinalize$MyHook@3e3abc88    # h1 created
+Created LocalFinalize$MyHook@6ce253f1    # h2 created
+Finalized LocalFinalize$MyHook@6ce253f1  # h2 finalized (!)
+....
+
+=== Printing bytecode
+
+[source,shell script]
+----
+# compiling to check the LVT (LocalVariableTable)
+# -g means generate the debugging info
+javac -g src/main/java/cz/chalda/shipilev/LocalFinalizer.java -d target/classes/
+# decompilation to see the bytecodde
+# bytecode LVT is under the title "LocalVariableTable:" at method public static void pass()
+javap -c -v -p target/classes/cz/chalda/shipilev/LocalFinalizer.class
+----
