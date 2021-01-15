@@ -81,5 +81,6 @@
     <module>quark-6-objet-init-optimization</module>
     <module>quark-7-initialization-cost</module>
     <module>quark-8-local-var-reachability</module>
+    <module>quark-12-native-memory</module>
   </modules>
 </project>

@@ -1,0 +1,55 @@
+= JVM Anatomy Quark #2: Native memory tracking
+
+https://shipilev.net/jvm/anatomy-quarks/12-native-memory-tracking/
+
+* `mvn clean install`
+
+[source,sh]
+----
+java -cp target/quark-12-native-memory-1.0-SNAPSHOT.jar cz.chalda.shipilev.Hello
+
+# alternativelly using -XX:NativeMemoryTracking=detail
+java -XX:+UnlockDiagnosticVMOptions -XX:NativeMemoryTracking=summary -XX:+PrintNMTStatistics\
+  -cp target/quark-12-native-memory-1.0-SNAPSHOT.jar cz.chalda.shipilev.Hello
+
+java -XX:+UnlockDiagnosticVMOptions -XX:NativeMemoryTracking=summary -cp \
+  target/quark-12-native-memory-1.0-SNAPSHOT.jar cz.chalda.shipilev.HelloWaiting
+# if used '=summary' the 'detail.diff' needs to be omitted
+jcmd <pid> VM.native_memory detail.diff
+----
+
+
+On running command where we define the heap size to be 16MB at max
+the native memory occupies 83MB all together (heap size accounted to the 83MB probably).
+
+[source,sh]
+----
+java -XX:+UnlockDiagnosticVMOptions -XX:NativeMemoryTracking=summary -XX:+PrintNMTStatistics\
+  -Xmx16M -Xms16M \
+  -cp target/quark-12-native-memory-1.0-SNAPSHOT.jar cz.chalda.shipilev.Hello
+----
+
+.The `java` command output
+----
+Total: reserved=1390999KB, committed=83227KB
+  - Java Heap (reserved=16384KB, committed=16384KB)
+              (mmap: reserved=16384KB, committed=16384KB)
+  ...
+----
+
+Using class data sharing to shrink down the memory used for class metadata
+as it will be stored in a file
+
+[source,sh]
+----
+# for not getting 'Specified shared archive not found.'
+sudo touch $JAVA_HOME/lib/server/classes.jsa
+sudo chmod 777 $JAVA_HOME/lib/server/classes.jsa
+# for not getting 'Unable to read the file header'
+java -Xshare:dump
+java -XX:+UnlockDiagnosticVMOptions -XX:NativeMemoryTracking=summary -XX:+PrintNMTStatistics\
+  -Xmx16M -Xms16M -Xshare:on \
+  -cp target/quark-12-native-memory-1.0-SNAPSHOT.jar cz.chalda.shipilev.Hello
+----
+
+NOTE: By default, Class-Data Sharing is enabled only for the JVM's bootstrap class loader. Specify the `-XX:+UseAppCDS` command-line option to enable class data sharing for the system class loader (a.k.a. "app class loader"), the platform class loader, and other user-defined class loaders. Details at: https://openjdk.java.net/jeps/310
